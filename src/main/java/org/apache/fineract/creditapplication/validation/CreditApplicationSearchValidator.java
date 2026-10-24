@@ -94,10 +94,6 @@ public class CreditApplicationSearchValidator {
           request.getMaxAmount(),
           "Maximum amount must be greater than or equal to minimum amount.");
     }
-    if ((request.getMinAmount() != null || request.getMaxAmount() != null)
-        && currencyCode == null) {
-      addError(errors, "currencyCode", null, "Currency code is required when filtering by amount.");
-    }
     if (currencyCode != null && !currencyCode.matches("[A-Z]{3}")) {
       addError(errors, "currencyCode", currencyCode, "Currency code must contain three letters.");
     }

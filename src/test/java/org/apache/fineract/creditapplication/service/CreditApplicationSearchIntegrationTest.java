@@ -168,8 +168,7 @@ class CreditApplicationSearchIntegrationTest {
 
     final CreditApplicationSearchRequest maximum = request();
     maximum.setMaxAmount(new BigDecimal("1000"));
-    maximum.setCurrencyCode("USD");
-    assertEquals(List.of(1L, 5L), loanIds(search(maximum)));
+    assertEquals(List.of(1L, 3L, 5L), loanIds(search(maximum)));
 
     final CreditApplicationSearchRequest range = request();
     range.setMinAmount(new BigDecimal("900"));

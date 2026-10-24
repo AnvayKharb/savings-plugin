@@ -91,8 +91,14 @@ class CreditApplicationSearchValidatorTest {
   }
 
   @Test
-  void requiresValidCurrencyForAmountFilters() {
-    assertInvalid(request -> request.setMinAmount(BigDecimal.ZERO));
+  void acceptsAmountFiltersWithoutCurrencyAndRejectsInvalidCurrency() {
+    final CreditApplicationSearchRequest amountRequest = new CreditApplicationSearchRequest();
+    amountRequest.setMaxAmount(BigDecimal.TEN);
+
+    final CreditApplicationSearchCriteria criteria = validator.validate(amountRequest);
+
+    assertEquals(BigDecimal.TEN, criteria.maxAmount());
+    assertNull(criteria.currencyCode());
     assertInvalid(request -> request.setCurrencyCode("US"));
     assertInvalid(request -> request.setCurrencyCode("U1D"));
   }

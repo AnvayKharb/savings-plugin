@@ -51,7 +51,7 @@ public class CreditApplicationSearchRequest {
 
   @QueryParam("currencyCode")
   @Parameter(
-      description = "ISO 4217 currency code; required when minAmount or maxAmount is supplied")
+      description = "Optional ISO 4217 currency code for narrowing amount filters to one currency")
   private String currencyCode;
 
   @QueryParam("stateProvinceId")

@@ -147,15 +147,29 @@ class CreditApplicationApiHttpIntegrationTest extends SavingsIntegrationTestBase
   }
 
   @Test
+  void maximumAmountDoesNotRequireAnUnsupportedUiCurrencyFilter() {
+    given(SavingsTestUtils.requestSpecWithAuth(getFineractPort(), "mifos", "password"))
+        .queryParam("productId", PRODUCT_ID)
+        .queryParam("maxAmount", "1500")
+        .when()
+        .get(CREDIT_APPLICATIONS_PATH)
+        .then()
+        .statusCode(200)
+        .contentType(ContentType.JSON)
+        .body("totalFilteredRecords", equalTo(1))
+        .body("pageItems[0].loanId", equalTo((int) LOAN_ID));
+  }
+
+  @Test
   void validationFailureUsesFineractHttpErrorResponse() {
     given(SavingsTestUtils.requestSpecWithAuth(getFineractPort(), "mifos", "password"))
-        .queryParam("minAmount", "1000")
+        .queryParam("maxAmount", "-1")
         .when()
         .get(CREDIT_APPLICATIONS_PATH)
         .then()
         .statusCode(400)
         .contentType(ContentType.JSON)
-        .body("errors[0].parameterName", equalTo("currencyCode"));
+        .body("errors[0].parameterName", equalTo("maxAmount"));
   }
 
   @Test
